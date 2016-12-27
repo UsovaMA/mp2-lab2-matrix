@@ -9,6 +9,7 @@
 #define __TMATRIX_H__
 
 #include <iostream>
+#include <stdexcept>
 
 using namespace std;
 
@@ -66,7 +67,7 @@ TVector<ValType>::TVector(int s, int si) {
     for (int i = 0; i < Size; i++)
       pVector[i] = 0;
   } else {
-    throw 1;
+    throw std::logic_error("Input error\n");
   }
 }  /*-------------------------------------------------------------------------*/
 
@@ -89,7 +90,7 @@ ValType& TVector<ValType>::operator[](int pos) {
   if ((pos > -1) && (pos < Size))
     return pVector[pos - StartIndex];
   else
-    throw 2;
+    throw std::logic_error("Input error: inadmissible index\n");
 }  /*-------------------------------------------------------------------------*/
 
 template <class ValType>  // сравнение
@@ -169,7 +170,7 @@ TVector<ValType> TVector<ValType>::operator+(const TVector<ValType> &v) {
       temp.pVector[i] = pVector[i] + v.pVector[i];
     return temp;
   } else {
-    throw 3;
+    throw std::logic_error("Error: vectors of different length\n");
   }
 }  /*-------------------------------------------------------------------------*/
 
@@ -181,7 +182,7 @@ TVector<ValType> TVector<ValType>::operator-(const TVector<ValType> &v) {
       temp.pVector[i] = pVector[i] - v.pVector[i];
       return temp;
   } else {
-    throw 4;
+    throw std::logic_error("Error: vectors of different length\n");
   }
 }  /*-------------------------------------------------------------------------*/
 
@@ -193,7 +194,7 @@ ValType TVector<ValType>::operator*(const TVector<ValType> &v) {
       mul += pVector[i] * v.pVector[i];
     return mul;
   } else {
-    throw 5;
+    throw std::logic_error("Error: vectors of different length\n");
   }
 }  /*-------------------------------------------------------------------------*/
 
@@ -227,7 +228,7 @@ class TMatrix : public TVector<TVector<ValType> > {
 template <class ValType>
 TMatrix<ValType>::TMatrix(int s): TVector<TVector<ValType> >(s) {
   if (s > MAX_MATRIX_SIZE) {
-    throw 6;
+    throw std::logic_error("Error: exceeded the maximum size of the matrix\n");
   }
   for (int i = 0; i < s; i++) {
     pVector[i] = TVector<ValType>(s-i, i);;
